@@ -12,6 +12,10 @@ env:
 
 jobs:
   bench:
+    permissions:
+      contents: read
+      id-token: write # required for OIDC authentication with CodSpeed
+
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -34,7 +38,7 @@ jobs:
         run: cargo codspeed build -p graviola-bench --features __bench_codspeed
 
       - name: Run benchmarks
-        uses: CodSpeedHQ/action@v3
+        uses: CodSpeedHQ/action@v5
         with:
+          mode: simulation
           run: cargo codspeed run
-          token: ${{ secrets.CODSPEED_TOKEN }}
